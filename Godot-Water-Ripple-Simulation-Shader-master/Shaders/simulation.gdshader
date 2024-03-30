@@ -7,6 +7,15 @@ uniform float phase = 0.2;
 uniform float attenuation = 0.999;
 uniform float deltaUV = 3.0;
 
+uniform float displ_amount = 0.6;
+uniform float near = 0.15;
+uniform float far = 300.0;
+
+float linearize(float c_depth) {
+	c_depth = 2.0 * c_depth - 1.0;
+	return near * far / (far + c_depth * (near - far));
+}
+
 void fragment() {
 	float dv = 1.0 / 514.0;
 	float du = 1.0 / 514.0;
