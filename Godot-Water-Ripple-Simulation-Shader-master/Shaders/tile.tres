@@ -1,0 +1,19 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://nc7fpw5shjum"]
+
+[ext_resource type="Texture2D" uid="uid://c7ffis6hplpih" path="res://Texture/tile_depth.png" id="3_roql3"]
+
+[resource]
+resource_local_to_scene = true
+cull_mode = 2
+shading_mode = 0
+diffuse_mode = 3
+specular_mode = 1
+albedo_color = Color(0.768627, 0.803922, 0.803922, 1)
+heightmap_scale = 0.002
+heightmap_deep_parallax = true
+heightmap_min_layers = 8
+heightmap_max_layers = 32
+heightmap_texture = ExtResource("3_roql3")
+heightmap_flip_texture = true
+uv1_scale = Vector3(0.2, 0.2, 0.2)
+uv1_triplanar = true

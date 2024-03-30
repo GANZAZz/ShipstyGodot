@@ -1,0 +1,322 @@
+[gd_scene load_steps=34 format=3 uid="uid://cdbpaiqms1wpo"]
+
+[ext_resource type="Script" path="res://Scripts/main.gd" id="1_v8y3l"]
+[ext_resource type="Shader" uid="uid://v3wvmylpqv6y" path="res://Shaders/buffer.tres" id="2_3fwpj"]
+[ext_resource type="Shader" path="res://Shaders/simulation.gdshader" id="3_bbaab"]
+[ext_resource type="Material" uid="uid://nc7fpw5shjum" path="res://Shaders/tile.tres" id="4_t50q4"]
+[ext_resource type="Shader" uid="uid://c7d7kiigmb7le" path="res://Shaders/main.tres" id="5_lxebv"]
+[ext_resource type="Shader" path="res://Shaders/LimitColorOutput.gdshader" id="6_nnckg"]
+[ext_resource type="Texture2D" uid="uid://3m3ubpkk3ays" path="res://icon.svg" id="7_cegmh"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_idmas"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_1qwgr"]
+sky_material = SubResource("ProceduralSkyMaterial_idmas")
+
+[sub_resource type="Environment" id="Environment_synaj"]
+background_mode = 2
+sky = SubResource("Sky_1qwgr")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_fn5i0"]
+viewport_path = NodePath("Simulation")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6vesp"]
+resource_local_to_scene = true
+shader = ExtResource("2_3fwpj")
+shader_parameter/Texture2DParameter = SubResource("ViewportTexture_fn5i0")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_2psol"]
+viewport_path = NodePath("Collision")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_iyhgh"]
+viewport_path = NodePath("SimulationBuffer")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cg4ft"]
+resource_local_to_scene = true
+shader = ExtResource("3_bbaab")
+shader_parameter/phase = 0.18
+shader_parameter/attenuation = 0.995
+shader_parameter/deltaUV = 2.3
+shader_parameter/displ_amount = 0.6
+shader_parameter/near = 0.15
+shader_parameter/far = 300.0
+shader_parameter/sim_tex = SubResource("ViewportTexture_iyhgh")
+shader_parameter/col_tex = SubResource("ViewportTexture_2psol")
+
+[sub_resource type="Environment" id="Environment_38vk1"]
+background_mode = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7l1gt"]
+diffuse_mode = 3
+specular_mode = 1
+metallic = 0.5
+roughness = 0.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_uny4g"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_7l1gt")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3j18g"]
+resource_local_to_scene = true
+shading_mode = 0
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_hyi7f"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_3j18g")
+
+[sub_resource type="Animation" id="Animation_55jk1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 1.5, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_6tw82"]
+resource_name = "dip"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 1.5, 0), Vector3(0, -0.143525, 0), Vector3(0, 1.5, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_oo1wg"]
+_data = {
+"RESET": SubResource("Animation_55jk1"),
+"dip": SubResource("Animation_6tw82")
+}
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ikqnr"]
+shading_mode = 0
+diffuse_mode = 3
+specular_mode = 1
+albedo_color = Color(0, 0.270588, 0.54902, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_psqb2"]
+resource_local_to_scene = true
+material = ExtResource("4_t50q4")
+size = Vector2(100, 100)
+subdivide_width = 500
+subdivide_depth = 500
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_m1c3a"]
+viewport_path = NodePath("Simulation")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_pknt0"]
+viewport_path = NodePath("SimulationBuffer")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f7voy"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("5_lxebv")
+shader_parameter/amplitude = 0.7
+shader_parameter/ColorParameter = Color(0, 0.705882, 0.705882, 1)
+shader_parameter/refraction_strength = 1.0
+shader_parameter/deep_water = Color(0, 0.560784, 0.560784, 0.776471)
+shader_parameter/shallow_water = Color(0, 0.690196, 1, 0.905882)
+shader_parameter/murkiness = 9.0
+shader_parameter/Roughness = 0.01
+shader_parameter/Metallic = 0.0
+shader_parameter/simulation2 = SubResource("ViewportTexture_pknt0")
+shader_parameter/simulation = SubResource("ViewportTexture_m1c3a")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ntba4"]
+resource_local_to_scene = true
+lightmap_size_hint = Vector2i(29, 29)
+material = SubResource("ShaderMaterial_f7voy")
+size = Vector2(5.4, 5.4)
+subdivide_width = 500
+subdivide_depth = 500
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_7doym"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_46n8v"]
+resource_local_to_scene = true
+shading_mode = 0
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_3rmhf"]
+material = SubResource("StandardMaterial3D_46n8v")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wwiro"]
+resource_local_to_scene = true
+shader = ExtResource("6_nnckg")
+shader_parameter/color_1 = Vector4(0.0898438, 0.125, 0.21875, 1)
+shader_parameter/color_2 = Vector4(0.144531, 0.226563, 0.367188, 1)
+shader_parameter/color_3 = Vector4(0.234375, 0.367188, 0.542969, 1)
+shader_parameter/color_4 = Vector4(0.308594, 0.558594, 0.726563, 1)
+shader_parameter/color_5 = Vector4(0.449219, 0.742188, 0.824219, 1)
+shader_parameter/color_6 = Vector4(0.640625, 0.863281, 0.855469, 1)
+shader_parameter/color_7 = Vector4(0.0976563, 0.742188, 0.824219, 1)
+shader_parameter/color_8 = Vector4(0.144531, 0.335938, 0.179688, 1)
+shader_parameter/color_9 = Vector4(0.273438, 0.507813, 0.195313, 1)
+shader_parameter/color_10 = Vector4(0.457031, 0.652344, 0.261719, 1)
+shader_parameter/color_11 = Vector4(0.65625, 0.789063, 0.34375, 1)
+shader_parameter/color_12 = Vector4(0.8125, 0.851563, 0.566406, 1)
+shader_parameter/color_13 = Vector4(0.300781, 0.167969, 0.214844, 1)
+shader_parameter/color_14 = Vector4(0.476563, 0.28125, 0.253906, 1)
+shader_parameter/color_15 = Vector4(0.675781, 0.464844, 0.339844, 1)
+shader_parameter/color_16 = Vector4(0.75, 0.578125, 0.449219, 1)
+shader_parameter/color_17 = Vector4(0.839844, 0.707031, 0.578125, 1)
+shader_parameter/color_18 = Vector4(0.902344, 0.832031, 0.699219, 1)
+shader_parameter/color_19 = Vector4(0.203125, 0.109375, 0.152344, 1)
+shader_parameter/color_20 = Vector4(0.375, 0.171875, 0.171875, 1)
+shader_parameter/color_21 = Vector4(0.53125, 0.292969, 0.167969, 1)
+shader_parameter/color_22 = Vector4(0.742188, 0.464844, 0.167969, 1)
+shader_parameter/color_23 = Vector4(0.867188, 0.617188, 0.253906, 1)
+shader_parameter/color_24 = Vector4(0.90625, 0.753906, 0.4375, 1)
+shader_parameter/color_25 = Vector4(0.140625, 0.0820313, 0.152344, 1)
+shader_parameter/color_26 = Vector4(0.253906, 0.113281, 0.191406, 1)
+shader_parameter/color_27 = Vector4(0.457031, 0.140625, 0.21875, 1)
+shader_parameter/color_28 = Vector4(0.644531, 0.1875, 0.1875, 1)
+shader_parameter/color_29 = Vector4(0.808594, 0.339844, 0.234375, 1)
+shader_parameter/color_30 = Vector4(0.851563, 0.523438, 0.242188, 1)
+shader_parameter/color_31 = Vector4(0.117188, 0.113281, 0.222656, 1)
+shader_parameter/color_32 = Vector4(0.25, 0.152344, 0.316406, 1)
+shader_parameter/color_33 = Vector4(0.476563, 0.210938, 0.480469, 1)
+shader_parameter/color_34 = Vector4(0.632813, 0.242188, 0.546875, 1)
+shader_parameter/color_35 = Vector4(0.773438, 0.152344, 0.316406, 1)
+shader_parameter/color_36 = Vector4(0.871094, 0.515625, 0.644531, 1)
+shader_parameter/color_37 = Vector4(0.0351563, 0.0390625, 0.078125, 1)
+shader_parameter/color_38 = Vector4(0.0625, 0.078125, 0.121094, 1)
+shader_parameter/color_39 = Vector4(0.0820313, 0.113281, 0.15625, 1)
+shader_parameter/color_40 = Vector4(0.125, 0.179688, 0.214844, 1)
+shader_parameter/color_41 = Vector4(0.222656, 0.289063, 0.3125, 1)
+shader_parameter/color_42 = Vector4(0.339844, 0.445313, 0.464844, 1)
+shader_parameter/color_43 = Vector4(0.503906, 0.589844, 0.585938, 1)
+shader_parameter/color_44 = Vector4(0.65625, 0.707031, 0.695313, 1)
+shader_parameter/color_45 = Vector4(0.777344, 0.808594, 0.796875, 1)
+shader_parameter/color_46 = Vector4(0.917969, 0.925781, 0.910156, 1)
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_v8y3l")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_synaj")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="SimulationBuffer" type="SubViewport" parent="."]
+size = Vector2i(514, 512)
+render_target_clear_mode = 2
+render_target_update_mode = 4
+
+[node name="ColorRect" type="ColorRect" parent="SimulationBuffer"]
+material = SubResource("ShaderMaterial_6vesp")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Simulation" type="SubViewport" parent="."]
+size = Vector2i(514, 512)
+render_target_clear_mode = 2
+render_target_update_mode = 4
+
+[node name="ColorRect" type="ColorRect" parent="Simulation"]
+material = SubResource("ShaderMaterial_cg4ft")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Collision" type="SubViewport" parent="."]
+size = Vector2i(514, 512)
+render_target_update_mode = 4
+
+[node name="WaterCam" type="Camera3D" parent="Collision"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -5, 0)
+keep_aspect = 0
+cull_mask = 524288
+environment = SubResource("Environment_38vk1")
+projection = 1
+current = true
+size = 10.1
+near = 0.001
+far = 5.0
+
+[node name="Ball" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Ball"]
+mesh = SubResource("SphereMesh_uny4g")
+
+[node name="WaterCollision" type="MeshInstance3D" parent="Ball"]
+layers = 524288
+mesh = SubResource("SphereMesh_hyi7f")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Ball"]
+libraries = {
+"": SubResource("AnimationLibrary_oo1wg")
+}
+autoplay = "dip"
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.6945, 0)
+size = Vector3(12, 5, 12)
+material = SubResource("StandardMaterial3D_ikqnr")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="CSGBox3D"]
+operation = 2
+size = Vector3(10, 8, 10)
+
+[node name="PoolFloor" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.76016, 0)
+mesh = SubResource("PlaneMesh_psqb2")
+
+[node name="Water" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.816463, 0)
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_ntba4")
+
+[node name="MainCam" type="Camera3D" parent="."]
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 5.07446, 5, 4.81451)
+cull_mask = 524287
+current = true
+size = 15.0
+
+[node name="Object" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.690295, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Object"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.85126)
+mesh = SubResource("CylinderMesh_7doym")
+skeleton = NodePath("../WaterColission")
+
+[node name="WaterColission" type="MeshInstance3D" parent="Object"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -7.15256e-07, -2.83762)
+layers = 524288
+mesh = SubResource("CylinderMesh_3rmhf")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_wwiro")
+position = Vector2(284, 144)
+scale = Vector2(8.84375, 4.54688)
+texture = ExtResource("7_cegmh")
