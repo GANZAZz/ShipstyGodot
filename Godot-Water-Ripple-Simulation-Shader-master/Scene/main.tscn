@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://cdbpaiqms1wpo"]
+[gd_scene load_steps=52 format=3 uid="uid://cdbpaiqms1wpo"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_v8y3l"]
 [ext_resource type="Shader" uid="uid://v3wvmylpqv6y" path="res://Shaders/buffer.tres" id="2_3fwpj"]
@@ -7,6 +7,11 @@
 [ext_resource type="Shader" uid="uid://c7d7kiigmb7le" path="res://Shaders/main.tres" id="5_lxebv"]
 [ext_resource type="Shader" path="res://Shaders/LimitColorOutput.gdshader" id="6_nnckg"]
 [ext_resource type="Texture2D" uid="uid://3m3ubpkk3ays" path="res://icon.svg" id="7_cegmh"]
+[ext_resource type="Shader" path="res://Shaders/Clouds.gdshader" id="8_ie7yu"]
+[ext_resource type="PackedScene" uid="uid://coog43ya4sq86" path="res://Meshes/ship.glb" id="9_0b4y6"]
+[ext_resource type="Script" path="res://Scripts/PhysOnWater.gd" id="9_txq3d"]
+[ext_resource type="PackedScene" uid="uid://bxtmertydechn" path="res://Meshes/shipsty.tscn" id="11_s6dx2"]
+[ext_resource type="Material" uid="uid://clyanmysnk36w" path="res://Shaders/MasksToSee-throughOtherObjects.tres" id="12_yr7lx"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_idmas"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -60,6 +65,18 @@ roughness = 0.0
 resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_7l1gt")
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6x6yb"]
+cull_mode = 1
+diffuse_mode = 3
+specular_mode = 1
+albedo_color = Color(0, 0, 0, 1)
+grow = true
+grow_amount = 0.05
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_80ic0"]
+next_pass = SubResource("StandardMaterial3D_6x6yb")
+diffuse_mode = 3
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3j18g"]
 resource_local_to_scene = true
 shading_mode = 0
@@ -107,8 +124,15 @@ _data = {
 "dip": SubResource("Animation_6tw82")
 }
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ew6a6"]
+cull_mode = 1
+diffuse_mode = 3
+specular_mode = 1
+grow = true
+grow_amount = 0.1
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ikqnr"]
-shading_mode = 0
+next_pass = SubResource("StandardMaterial3D_ew6a6")
 diffuse_mode = 3
 specular_mode = 1
 albedo_color = Color(0, 0.270588, 0.54902, 1)
@@ -116,7 +140,7 @@ albedo_color = Color(0, 0.270588, 0.54902, 1)
 [sub_resource type="PlaneMesh" id="PlaneMesh_psqb2"]
 resource_local_to_scene = true
 material = ExtResource("4_t50q4")
-size = Vector2(100, 100)
+size = Vector2(300, 300)
 subdivide_width = 500
 subdivide_depth = 500
 
@@ -128,14 +152,14 @@ viewport_path = NodePath("SimulationBuffer")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_f7voy"]
 resource_local_to_scene = true
-render_priority = 0
+render_priority = -1
 shader = ExtResource("5_lxebv")
-shader_parameter/amplitude = 0.7
-shader_parameter/ColorParameter = Color(0, 0.705882, 0.705882, 1)
+shader_parameter/amplitude = 0.5
+shader_parameter/WavesNoise = Color(0, 0.564706, 1, 1)
 shader_parameter/refraction_strength = 1.0
-shader_parameter/deep_water = Color(0, 0.560784, 0.560784, 0.776471)
-shader_parameter/shallow_water = Color(0, 0.690196, 1, 0.905882)
-shader_parameter/murkiness = 9.0
+shader_parameter/deep_water = Color(0.0901961, 0.12549, 0.219608, 0.937255)
+shader_parameter/shallow_water = Color(0, 0.929412, 0.945098, 0.733333)
+shader_parameter/murkiness = 2.0
 shader_parameter/Roughness = 0.01
 shader_parameter/Metallic = 0.0
 shader_parameter/simulation2 = SubResource("ViewportTexture_pknt0")
@@ -145,7 +169,7 @@ shader_parameter/simulation = SubResource("ViewportTexture_m1c3a")
 resource_local_to_scene = true
 lightmap_size_hint = Vector2i(29, 29)
 material = SubResource("ShaderMaterial_f7voy")
-size = Vector2(5.4, 5.4)
+size = Vector2(30, 30)
 subdivide_width = 500
 subdivide_depth = 500
 
@@ -209,6 +233,58 @@ shader_parameter/color_44 = Vector4(0.65625, 0.707031, 0.695313, 1)
 shader_parameter/color_45 = Vector4(0.777344, 0.808594, 0.796875, 1)
 shader_parameter/color_46 = Vector4(0.917969, 0.925781, 0.910156, 1)
 
+[sub_resource type="Gradient" id="Gradient_1b4o1"]
+offsets = PackedFloat32Array(0.309524, 1)
+colors = PackedColorArray(0.349206, 0.349206, 0.349206, 1, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_x8wma"]
+seed = 3
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_toahu"]
+color_ramp = SubResource("Gradient_1b4o1")
+noise = SubResource("FastNoiseLite_x8wma")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4og4g"]
+render_priority = 0
+shader = ExtResource("8_ie7yu")
+shader_parameter/isSoft = false
+shader_parameter/speed = 0.009
+shader_parameter/brightness = 0.1
+shader_parameter/threshold = 1.199
+shader_parameter/fluffiness = 2.0
+shader_parameter/noiseTexture = SubResource("NoiseTexture2D_toahu")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_w32y2"]
+material = SubResource("ShaderMaterial_4og4g")
+size = Vector2(100, 100)
+
+[sub_resource type="GDScript" id="GDScript_5qesa"]
+script/source = "extends Node3D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+"
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_kon40"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pkonb"]
+shading_mode = 0
+albedo_color = Color(0.929412, 0, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_632fk"]
+material = SubResource("StandardMaterial3D_pkonb")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tx2g4"]
+radius = 2.0
+height = 4.0
+
 [node name="Main" type="Node3D"]
 script = ExtResource("1_v8y3l")
 
@@ -258,7 +334,7 @@ cull_mask = 524288
 environment = SubResource("Environment_38vk1")
 projection = 1
 current = true
-size = 10.1
+size = 60.0
 near = 0.001
 far = 5.0
 
@@ -267,6 +343,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
 [node name="Mesh" type="MeshInstance3D" parent="Ball"]
 mesh = SubResource("SphereMesh_uny4g")
+surface_material_override/0 = SubResource("StandardMaterial3D_80ic0")
 
 [node name="WaterCollision" type="MeshInstance3D" parent="Ball"]
 layers = 524288
@@ -292,26 +369,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.76016, 0)
 mesh = SubResource("PlaneMesh_psqb2")
 
 [node name="Water" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.816463, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.253897, 0)
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_ntba4")
-
-[node name="MainCam" type="Camera3D" parent="."]
-transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 5.07446, 5, 4.81451)
-cull_mask = 524287
-current = true
-size = 15.0
 
 [node name="Object" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.690295, 0)
 
 [node name="Mesh" type="MeshInstance3D" parent="Object"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.85126)
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 0, 0, -2.85126)
 mesh = SubResource("CylinderMesh_7doym")
 skeleton = NodePath("../WaterColission")
 
 [node name="WaterColission" type="MeshInstance3D" parent="Object"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -7.15256e-07, -2.83762)
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 0, -7.15256e-07, -2.83762)
 layers = 524288
 mesh = SubResource("CylinderMesh_3rmhf")
 
@@ -320,3 +391,92 @@ material = SubResource("ShaderMaterial_wwiro")
 position = Vector2(284, 144)
 scale = Vector2(8.84375, 4.54688)
 texture = ExtResource("7_cegmh")
+
+[node name="Generation_Clouds" type="CSGMesh3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 51.2457, 0)
+cast_shadow = 3
+mesh = SubResource("PlaneMesh_w32y2")
+
+[node name="MainCam" type="Camera3D" parent="."]
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 7.76885, 11.0639, 10.2263)
+cull_mask = 524287
+projection = 1
+current = true
+size = 32.0
+far = 50.0
+
+[node name="Ship" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.97941, 2.93572, 1.04681)
+axis_lock_angular_x = true
+script = ExtResource("9_txq3d")
+
+[node name="Boat" parent="Ship" instance=ExtResource("9_0b4y6")]
+script = SubResource("GDScript_5qesa")
+
+[node name="Mask" type="MeshInstance3D" parent="Ship/Boat"]
+transform = Transform3D(1.9, 0, 0, 0, -6.55671e-08, -0.5, 0, 1.5, -2.18557e-08, 0.0299997, 0.426867, -0.025)
+material_override = ExtResource("12_yr7lx")
+mesh = SubResource("CapsuleMesh_kon40")
+skeleton = NodePath("../../..")
+
+[node name="collision" type="MeshInstance3D" parent="Ship/Boat"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.292752, 0)
+layers = 524288
+mesh = SubResource("CapsuleMesh_632fk")
+
+[node name="capsuleColissionShape" type="CollisionShape3D" parent="Ship"]
+shape = SubResource("CapsuleShape3D_tx2g4")
+
+[node name="ProbeContainer" type="Node3D" parent="Ship"]
+
+[node name="Marker3D" type="Marker3D" parent="Ship/ProbeContainer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.879835, 0, -0.975674)
+
+[node name="Marker3D2" type="Marker3D" parent="Ship/ProbeContainer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.02545, 0, -0.268044)
+
+[node name="Marker3D3" type="Marker3D" parent="Ship/ProbeContainer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.02043, 0, 0.631418)
+
+[node name="Marker3D4" type="Marker3D" parent="Ship/ProbeContainer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0333257, 0, 1.58803)
+
+[node name="Marker3D13" type="Marker3D" parent="Ship/ProbeContainer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.701162, 0, 1.58803)
+
+[node name="Marker3D14" type="Marker3D" parent="Ship/ProbeContainer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.987378, 0, 1.33195)
+
+[node name="Marker3D5" type="Marker3D" parent="Ship/ProbeContainer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.698218, 0, 1.56813)
+
+[node name="Marker3D6" type="Marker3D" parent="Ship/ProbeContainer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.986939, 0, 1.32392)
+
+[node name="Marker3D7" type="Marker3D" parent="Ship/ProbeContainer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.01707, 0, 0.607762)
+
+[node name="Marker3D8" type="Marker3D" parent="Ship/ProbeContainer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.02209, 0, -0.294569)
+
+[node name="Marker3D9" type="Marker3D" parent="Ship/ProbeContainer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.976897, 0, -0.934128)
+
+[node name="Marker3D10" type="Marker3D" parent="Ship/ProbeContainer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.68816, 0, -1.33881)
+
+[node name="Marker3D11" type="Marker3D" parent="Ship/ProbeContainer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00543672, 0.0913206, -1.61036)
+
+[node name="Marker3D12" type="Marker3D" parent="Ship/ProbeContainer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.704422, 0.0160785, -1.32825)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.10377, 0)
+light_color = Color(0.639216, 0.439216, 0, 1)
+light_energy = 16.0
+light_indirect_energy = 3.365
+light_size = 2.0
+
+[node name="ship2" parent="." instance=ExtResource("11_s6dx2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)

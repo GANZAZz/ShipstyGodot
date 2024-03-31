@@ -115,12 +115,12 @@ operator = 2
 default_input_values = [0, 0.0, 1, 1.0]
 
 [sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_whmah"]
-default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(1.25, 1.25, 1.25, 1.25)]
+default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(0.62, 0.62, 0.62, 0.62)]
 op_type = 2
 operator = 5
 
 [sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_vtuml"]
-parameter_name = "ColorParameter"
+parameter_name = "WavesNoise"
 default_value_enabled = true
 default_value = Color(0, 0.564706, 1, 1)
 
@@ -249,7 +249,7 @@ render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_s
 uniform sampler2D tex_vtx_12;
 uniform sampler2D simulation2;
 uniform float amplitude = 0.5;
-uniform vec4 ColorParameter : source_color = vec4(0.000000, 0.564706, 1.000000, 1.000000);
+uniform vec4 WavesNoise : source_color = vec4(0.000000, 0.564706, 1.000000, 1.000000);
 uniform sampler2D tex_frg_27;
 uniform sampler2D tex_frg_28;
 uniform float refraction_strength = 0.10000000149012;
@@ -342,7 +342,7 @@ void vertex() {
 
 void fragment() {
 // ColorParameter:39
-	vec4 n_out39p0 = ColorParameter;
+	vec4 n_out39p0 = WavesNoise;
 
 
 // Input:29
@@ -376,7 +376,7 @@ void fragment() {
 
 
 // VectorOp:38
-	vec4 n_in38p1 = vec4(1.25000, 1.25000, 1.25000, 1.25000);
+	vec4 n_in38p1 = vec4(0.62000, 0.62000, 0.62000, 0.62000);
 	vec4 n_out38p0 = pow(n_out33p0, n_in38p1);
 
 
@@ -548,6 +548,7 @@ void fragment() {
 
 }
 "
+graph_offset = Vector2(-329.427, -107.782)
 nodes/vertex/0/position = Vector2(1000, 80)
 nodes/vertex/2/node = SubResource("VisualShaderNodeInput_olx2s")
 nodes/vertex/2/position = Vector2(-820, 100)
