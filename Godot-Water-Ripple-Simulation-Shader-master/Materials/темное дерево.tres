@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://bq1uhqwnsiaa5"]
+
+[resource]
+resource_name = "темное дерево"
+cull_mode = 2
+shading_mode = 0

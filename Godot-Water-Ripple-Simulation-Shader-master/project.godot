@@ -26,3 +26,8 @@ window/stretch/mode="viewport"
 [dotnet]
 
 project/assembly_name="Water sim YT"
+
+[filesystem]
+
+import/blender/enabled.android=true
+import/blender/enabled.web=true

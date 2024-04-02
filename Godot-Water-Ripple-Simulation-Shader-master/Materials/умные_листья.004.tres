@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://cnb58pmfs6ryp"]
+
+[resource]
+resource_name = "умные_листья.004"
+cull_mode = 2
+shading_mode = 0

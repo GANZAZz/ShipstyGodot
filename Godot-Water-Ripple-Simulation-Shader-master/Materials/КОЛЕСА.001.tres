@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://b8ufyndnqs618"]
+
+[resource]
+resource_name = "КОЛЕСА.001"
+cull_mode = 2
+shading_mode = 0
