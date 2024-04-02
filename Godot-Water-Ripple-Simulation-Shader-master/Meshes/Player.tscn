@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://b725gotlrmn08"]
+
+[ext_resource type="Script" path="res://Scripts/PhysOnWater.gd" id="1_8nptt"]
+
+[node name="Ship" type="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.1552, 2.93572, 9.33402)
+axis_lock_angular_x = true
+script = ExtResource("1_8nptt")

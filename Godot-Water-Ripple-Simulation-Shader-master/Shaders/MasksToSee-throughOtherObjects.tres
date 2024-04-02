@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://clyanmysnk36w"]
+
+[ext_resource type="Shader" path="res://Shaders/MasksToSee-throughOtherObjects.gdshader" id="1_81v2y"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_81v2y")

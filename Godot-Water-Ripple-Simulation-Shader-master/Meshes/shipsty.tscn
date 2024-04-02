@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://bxtmertydechn"]
+
+[ext_resource type="PackedScene" uid="uid://coog43ya4sq86" path="res://Meshes/ship.glb" id="1_8i1pv"]
+[ext_resource type="Material" uid="uid://c5de2yi3l2484" path="res://Materials/new_ShipOutlines.tres" id="2_j14dv"]
+
+[node name="ship" instance=ExtResource("1_8i1pv")]
+
+[node name="КОРАБЛ" parent="." index="0"]
+surface_material_override/0 = ExtResource("2_j14dv")
