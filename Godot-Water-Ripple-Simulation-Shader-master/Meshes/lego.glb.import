@@ -1,0 +1,121 @@
+[remap]
+
+importer="scene"
+importer_version=1
+type="PackedScene"
+uid="uid://q8ky5hs8byyj"
+path="res://.godot/imported/lego.glb-45151ec1f366f73c120cc2cd84f9fa3f.scn"
+
+[deps]
+
+source_file="res://Meshes/lego.glb"
+dest_files=["res://.godot/imported/lego.glb-45151ec1f366f73c120cc2cd84f9fa3f.scn"]
+
+[params]
+
+nodes/root_type=""
+nodes/root_name=""
+nodes/apply_root_scale=true
+nodes/root_scale=1.0
+meshes/ensure_tangents=true
+meshes/generate_lods=true
+meshes/create_shadow_meshes=true
+meshes/light_baking=1
+meshes/lightmap_texel_size=0.2
+meshes/force_disable_compression=false
+skins/use_named_skins=true
+animation/import=true
+animation/fps=30
+animation/trimming=false
+animation/remove_immutable_tracks=true
+import_script/path=""
+_subresources={
+"materials": {
+"КОЛЕСА": {
+"use_external/enabled": true,
+"use_external/path": "res://Materials/КОЛЕСА.tres"
+},
+"КОЛЕСА.001": {
+"use_external/enabled": true,
+"use_external/path": "res://Materials/КОЛЕСА.001.tres"
+},
+"светлое дерево": {
+"use_external/enabled": true,
+"use_external/path": "res://Materials/светлое дерево.tres"
+},
+"темное дерево": {
+"use_external/enabled": true,
+"use_external/path": "res://Materials/темное дерево.tres"
+},
+"темное дерево.001": {
+"use_external/enabled": true,
+"use_external/path": "res://Materials/темное дерево.001.tres"
+},
+"умная_земля": {
+"use_external/enabled": true,
+"use_external/path": "res://Materials/умная_земля.tres"
+},
+"умная_пушка": {
+"use_external/enabled": true,
+"use_external/path": "res://Materials/умная_пушка.tres"
+},
+"умнгый_песок.001": {
+"use_external/enabled": true,
+"use_external/path": "res://Materials/умнгый_песок.001.tres"
+},
+"умные_листья": {
+"use_external/enabled": true,
+"use_external/path": "res://Materials/умные_листья.tres"
+},
+"умные_листья.001": {
+"use_external/enabled": true,
+"use_external/path": "res://Materials/умные_листья.001.tres"
+},
+"умные_листья.002": {
+"use_external/enabled": true,
+"use_external/path": "res://Materials/умные_листья.002.tres"
+},
+"умные_листья.003": {
+"use_external/enabled": true,
+"use_external/path": "res://Materials/умные_листья.003.tres"
+},
+"умные_листья.004": {
+"use_external/enabled": true,
+"use_external/path": "res://Materials/умные_листья.004.tres"
+},
+"умный_камень": {
+"use_external/enabled": true,
+"use_external/path": "res://Materials/умный_камень.tres"
+},
+"умный_камень.001": {
+"use_external/enabled": true,
+"use_external/path": "res://Materials/умный_камень.001.tres"
+},
+"умный_корабль.001": {
+"use_external/enabled": true,
+"use_external/path": "res://Materials/умный_корабль.001.tres"
+},
+"умный_корабль.002": {
+"use_external/enabled": true,
+"use_external/path": "res://Materials/умный_корабль.002.tres"
+},
+"умный_корабль.003": {
+"use_external/enabled": true,
+"use_external/path": "res://Materials/умный_корабль.003.tres"
+},
+"умный_корабль.004": {
+"use_external/enabled": true,
+"use_external/path": "res://Materials/умный_корабль.004.tres"
+},
+"умный_корабль.005": {
+"use_external/enabled": true,
+"use_external/path": "res://Materials/умный_корабль.005.tres"
+},
+"умный_корабль.006": {
+"use_external/enabled": true,
+"use_external/path": "res://Materials/умный_корабль.006.tres"
+}
+}
+}
+gltf/naming_version=1
+gltf/embedded_image_handling=1

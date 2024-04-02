@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dn62hcpxyipwg"]
+
+[resource]
+resource_name = "умная_земля"
+cull_mode = 2
+shading_mode = 0

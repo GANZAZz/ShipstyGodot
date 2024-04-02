@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://r7cx10x34x5p"]
+
+[resource]
+resource_name = "умный_камень"
+cull_mode = 2
+shading_mode = 0

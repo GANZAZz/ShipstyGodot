@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dvnp84twuhesv"]
+
+[resource]
+resource_name = "умная_пушка"
+cull_mode = 2
+shading_mode = 0
