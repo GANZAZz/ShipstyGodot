@@ -1,6 +1,0 @@
-[gd_resource type="StandardMaterial3D" format=3 uid="uid://u8agv3jpdwj"]
-
-[resource]
-resource_name = "умный_корабль.002"
-cull_mode = 2
-shading_mode = 0

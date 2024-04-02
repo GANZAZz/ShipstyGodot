@@ -113,7 +113,7 @@ operator = 2
 default_input_values = [0, 0.0, 1, 1.0]
 
 [sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_whmah"]
-default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(0.62, 0.31, 0.62, 0.31)]
+default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(0.62, 0.31, 0.31, 0.31)]
 op_type = 2
 operator = 5
 
@@ -374,7 +374,7 @@ void fragment() {
 
 
 // VectorOp:38
-	vec4 n_in38p1 = vec4(0.62000, 0.31000, 0.62000, 0.31000);
+	vec4 n_in38p1 = vec4(0.62000, 0.31000, 0.31000, 0.31000);
 	vec4 n_out38p0 = pow(n_out33p0, n_in38p1);
 
 
