@@ -17,11 +17,9 @@ var submerged := false
 func _ready():
 	pass # Replace with function body.
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
-
 
 func _physics_process(delta):
 	submerged = false
@@ -30,6 +28,19 @@ func _physics_process(delta):
 		if depth > 0:
 			submerged = true
 			apply_force(Vector3.UP * float_force * gravity * depth, p.global_position - global_position)
+	Move()
+
+func Move():
+
+	var basis = get_global_transform().basis
+	
+	if Input.is_action_pressed("ui_up"):
+		apply_central_force(-basis.z * 18)
+	if Input.is_action_pressed("ui_left"):
+		apply_torque(Vector3(0, 15, 0))
+	if Input.is_action_pressed("ui_right"):
+		apply_torque(Vector3(0, -15, 0))
+
 
 func _integrate_forces(state: PhysicsDirectBodyState3D):
 	if submerged:

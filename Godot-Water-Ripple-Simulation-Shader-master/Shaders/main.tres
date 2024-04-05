@@ -113,7 +113,7 @@ operator = 2
 default_input_values = [0, 0.0, 1, 1.0]
 
 [sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_whmah"]
-default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(0.62, 0.31, 0.31, 0.31)]
+default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(1.25, 1.25, 1.25, 1.25)]
 op_type = 2
 operator = 5
 
@@ -210,7 +210,6 @@ default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(0, 0, 0, 0)]
 op_type = 2
 
 [sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_6pcra"]
-default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(0.2, 0.2, 0.2)]
 
 [sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_olx2s"]
 input_name = "uv"
@@ -282,7 +281,7 @@ void vertex() {
 
 
 // VectorOp:18
-	vec3 n_in18p1 = vec3(0.20000, 0.20000, 0.20000);
+	vec3 n_in18p1 = vec3(0.00000, 0.00000, 0.00000);
 	vec3 n_out18p0 = n_out15p0 + n_in18p1;
 
 
@@ -374,7 +373,7 @@ void fragment() {
 
 
 // VectorOp:38
-	vec4 n_in38p1 = vec4(0.62000, 0.31000, 0.31000, 0.31000);
+	vec4 n_in38p1 = vec4(1.25000, 1.25000, 1.25000, 1.25000);
 	vec4 n_out38p0 = pow(n_out33p0, n_in38p1);
 
 
@@ -546,6 +545,7 @@ void fragment() {
 
 }
 "
+graph_offset = Vector2(-54.4135, -203.206)
 nodes/vertex/0/position = Vector2(1000, 80)
 nodes/vertex/2/node = SubResource("VisualShaderNodeInput_olx2s")
 nodes/vertex/2/position = Vector2(-820, 100)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://cdbpaiqms1wpo"]
+[gd_scene load_steps=50 format=3 uid="uid://cdbpaiqms1wpo"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_v8y3l"]
 [ext_resource type="Shader" uid="uid://v3wvmylpqv6y" path="res://Shaders/buffer.tres" id="2_3fwpj"]
@@ -8,7 +8,6 @@
 [ext_resource type="Shader" path="res://Shaders/LimitColorOutput.gdshader" id="6_nnckg"]
 [ext_resource type="Texture2D" uid="uid://3m3ubpkk3ays" path="res://icon.svg" id="7_cegmh"]
 [ext_resource type="Shader" path="res://Shaders/Clouds.gdshader" id="8_ie7yu"]
-[ext_resource type="Script" path="res://Scripts/movement.gd" id="9_82bc6"]
 [ext_resource type="Script" path="res://Scripts/PhysOnWater.gd" id="9_txq3d"]
 [ext_resource type="PackedScene" uid="uid://bxtmertydechn" path="res://Meshes/shipsty.tscn" id="11_s6dx2"]
 [ext_resource type="Material" uid="uid://clyanmysnk36w" path="res://Shaders/MasksToSee-throughOtherObjects.tres" id="12_yr7lx"]
@@ -260,13 +259,13 @@ size = Vector2(100, 100)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_kon40"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pkonb"]
-shading_mode = 0
-albedo_color = Color(0.929412, 0, 0, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u8u0x"]
+diffuse_mode = 3
+specular_mode = 1
+albedo_color = Color(1, 0, 0, 1)
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_632fk"]
-material = SubResource("StandardMaterial3D_pkonb")
-radius = 0.6
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_gmsih"]
+material = SubResource("StandardMaterial3D_u8u0x")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_kbd75"]
 size = Vector3(1.91333, 0.737022, 3.24738)
@@ -391,76 +390,74 @@ current = true
 size = 32.0
 far = 50.0
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
-axis_lock_angular_x = true
-script = ExtResource("9_82bc6")
-
-[node name="Ship" type="RigidBody3D" parent="CharacterBody3D"]
+[node name="Ship" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.41103, 0)
 axis_lock_angular_x = true
 axis_lock_angular_z = true
 script = ExtResource("9_txq3d")
 
-[node name="ship" parent="CharacterBody3D/Ship" instance=ExtResource("11_s6dx2")]
+[node name="ship" parent="Ship" instance=ExtResource("11_s6dx2")]
 
-[node name="Mask" type="MeshInstance3D" parent="CharacterBody3D/Ship/ship"]
-transform = Transform3D(1.6, 0, 0, 0, -6.77527e-08, -1, 0, 1.55, -4.37114e-08, 0, 0.538607, 0)
+[node name="Mask" type="MeshInstance3D" parent="Ship/ship"]
+transform = Transform3D(2, 0, 0, 0, -6.9064e-08, -1.249, 0, 1.58, -5.45955e-08, 0, 0.853895, 0)
 material_override = ExtResource("12_yr7lx")
 mesh = SubResource("CapsuleMesh_kon40")
-skeleton = NodePath("../../../..")
+skeleton = NodePath("../../..")
 
-[node name="collision" type="MeshInstance3D" parent="CharacterBody3D/Ship/ship"]
-transform = Transform3D(2, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.0158501, 0)
-visible = false
+[node name="collision" type="MeshInstance3D" parent="Ship/ship"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.34392, 0.930065)
 layers = 524288
-mesh = SubResource("CapsuleMesh_632fk")
+mesh = SubResource("CapsuleMesh_gmsih")
 skeleton = NodePath("")
 
-[node name="capsuleColissionShape" type="CollisionShape3D" parent="CharacterBody3D/Ship"]
+[node name="capsuleColissionShape" type="CollisionShape3D" parent="Ship"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.683139, 0)
+visible = false
 shape = SubResource("BoxShape3D_kbd75")
 
-[node name="ProbeContainer" type="Node3D" parent="CharacterBody3D/Ship"]
+[node name="ProbeContainer" type="Node3D" parent="Ship"]
+visible = false
 
-[node name="Marker3D" type="Marker3D" parent="CharacterBody3D/Ship/ProbeContainer"]
+[node name="Marker3D" type="Marker3D" parent="Ship/ProbeContainer"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.879835, 0, -0.975674)
 
-[node name="Marker3D2" type="Marker3D" parent="CharacterBody3D/Ship/ProbeContainer"]
+[node name="Marker3D2" type="Marker3D" parent="Ship/ProbeContainer"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.02545, 0, -0.268044)
 
-[node name="Marker3D3" type="Marker3D" parent="CharacterBody3D/Ship/ProbeContainer"]
+[node name="Marker3D3" type="Marker3D" parent="Ship/ProbeContainer"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.02043, 0, 0.631418)
 
-[node name="Marker3D4" type="Marker3D" parent="CharacterBody3D/Ship/ProbeContainer"]
+[node name="Marker3D4" type="Marker3D" parent="Ship/ProbeContainer"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0333257, 0.230672, 1.58803)
 
-[node name="Marker3D13" type="Marker3D" parent="CharacterBody3D/Ship/ProbeContainer"]
+[node name="Marker3D13" type="Marker3D" parent="Ship/ProbeContainer"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.701162, 0.229053, 1.58803)
 
-[node name="Marker3D14" type="Marker3D" parent="CharacterBody3D/Ship/ProbeContainer"]
+[node name="Marker3D14" type="Marker3D" parent="Ship/ProbeContainer"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.987378, 0.195849, 1.33195)
 
-[node name="Marker3D5" type="Marker3D" parent="CharacterBody3D/Ship/ProbeContainer"]
+[node name="Marker3D5" type="Marker3D" parent="Ship/ProbeContainer"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.698218, 0.188149, 1.56813)
 
-[node name="Marker3D6" type="Marker3D" parent="CharacterBody3D/Ship/ProbeContainer"]
+[node name="Marker3D6" type="Marker3D" parent="Ship/ProbeContainer"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.986939, 0.174612, 1.32392)
 
-[node name="Marker3D7" type="Marker3D" parent="CharacterBody3D/Ship/ProbeContainer"]
+[node name="Marker3D7" type="Marker3D" parent="Ship/ProbeContainer"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.01707, 0, 0.607762)
 
-[node name="Marker3D8" type="Marker3D" parent="CharacterBody3D/Ship/ProbeContainer"]
+[node name="Marker3D8" type="Marker3D" parent="Ship/ProbeContainer"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.02209, 0, -0.294569)
 
-[node name="Marker3D9" type="Marker3D" parent="CharacterBody3D/Ship/ProbeContainer"]
+[node name="Marker3D9" type="Marker3D" parent="Ship/ProbeContainer"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.976897, 0, -0.934128)
 
-[node name="Marker3D10" type="Marker3D" parent="CharacterBody3D/Ship/ProbeContainer"]
+[node name="Marker3D10" type="Marker3D" parent="Ship/ProbeContainer"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.68816, 0, -1.33881)
 
-[node name="Marker3D11" type="Marker3D" parent="CharacterBody3D/Ship/ProbeContainer"]
+[node name="Marker3D11" type="Marker3D" parent="Ship/ProbeContainer"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00543672, 0.0913206, -1.61036)
 
-[node name="Marker3D12" type="Marker3D" parent="CharacterBody3D/Ship/ProbeContainer"]
+[node name="Marker3D12" type="Marker3D" parent="Ship/ProbeContainer"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.704422, 0.0160785, -1.32825)
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]

@@ -1,6 +1,6 @@
 [gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://wvhepjyqe5a8"]
 
-[ext_resource type="Texture2D" uid="uid://dijhegaucqu77" path="res://Meshes/ship_apollo-1x.png" id="1_wc5ds"]
+[ext_resource type="Texture2D" uid="uid://dyxcqkcbbnds3" path="res://Meshes/ship_apollo-1x.png" id="1_wc5ds"]
 
 [resource]
 resource_name = "Material.001"
