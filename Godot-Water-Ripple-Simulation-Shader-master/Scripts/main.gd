@@ -6,7 +6,7 @@ func _ready():
 	var cr = $Simulation/ColorRect
 	var water = $Water
 	var sim_tex = $Simulation.get_texture()
-	var col_tex = $Collision.get_texture()
+	var col_tex = $PhantomCamera3D/Collision.get_texture()
 
 	water.mesh.surface_get_material(0).set_shader_parameter('simulation', sim_tex)
 	water.mesh.surface_get_material(0).set_shader_parameter('simulation2', sim_tex)

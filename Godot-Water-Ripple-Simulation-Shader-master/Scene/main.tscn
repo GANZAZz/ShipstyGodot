@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=3 uid="uid://cdbpaiqms1wpo"]
+[gd_scene load_steps=60 format=3 uid="uid://cdbpaiqms1wpo"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_v8y3l"]
 [ext_resource type="Shader" uid="uid://v3wvmylpqv6y" path="res://Shaders/buffer.tres" id="2_3fwpj"]
@@ -13,6 +13,14 @@
 [ext_resource type="PackedScene" uid="uid://bxtmertydechn" path="res://Meshes/shipsty.tscn" id="11_s6dx2"]
 [ext_resource type="Material" uid="uid://clyanmysnk36w" path="res://Shaders/MasksToSee-throughOtherObjects.tres" id="12_yr7lx"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3D.gd" id="13_36n77"]
+[ext_resource type="PackedScene" uid="uid://drwx383g6hnw5" path="res://Meshes/rocks/rock1.glb" id="14_5gbe3"]
+[ext_resource type="PackedScene" uid="uid://dqljjqbd0kg8m" path="res://Meshes/ruins/ruins.glb" id="15_rafgm"]
+[ext_resource type="PackedScene" uid="uid://ddwcqe4i3lcjx" path="res://Meshes/rocks/rock3.glb" id="16_cod56"]
+[ext_resource type="PackedScene" uid="uid://dum021y3ejqwf" path="res://Meshes/tales/sand.glb" id="17_ulnue"]
+[ext_resource type="PackedScene" path="res://Meshes/trees/tree2.glb" id="18_lx1bp"]
+[ext_resource type="PackedScene" uid="uid://ccqk81tachq7f" path="res://Meshes/trees/palm3.glb" id="19_4f13p"]
+[ext_resource type="PackedScene" uid="uid://c3056k88jjojv" path="res://Meshes/trees/palm2.glb" id="20_ryrbp"]
+[ext_resource type="PackedScene" uid="uid://c44ckcgxnlg88" path="res://Meshes/trees/palm1.glb" id="21_37djg"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_idmas"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -36,7 +44,7 @@ shader = ExtResource("2_3fwpj")
 shader_parameter/Texture2DParameter = SubResource("ViewportTexture_fn5i0")
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_2psol"]
-viewport_path = NodePath("Collision")
+viewport_path = NodePath("PhantomCamera3D/Collision")
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_iyhgh"]
 viewport_path = NodePath("SimulationBuffer")
@@ -52,9 +60,6 @@ shader_parameter/near = 0.15
 shader_parameter/far = 300.0
 shader_parameter/sim_tex = SubResource("ViewportTexture_iyhgh")
 shader_parameter/col_tex = SubResource("ViewportTexture_2psol")
-
-[sub_resource type="Environment" id="Environment_38vk1"]
-background_mode = 1
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7l1gt"]
 diffuse_mode = 3
@@ -125,26 +130,6 @@ _data = {
 "dip": SubResource("Animation_6tw82")
 }
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ew6a6"]
-cull_mode = 1
-diffuse_mode = 3
-specular_mode = 1
-grow = true
-grow_amount = 0.1
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ikqnr"]
-next_pass = SubResource("StandardMaterial3D_ew6a6")
-diffuse_mode = 3
-specular_mode = 1
-albedo_color = Color(0, 0.270588, 0.54902, 1)
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_psqb2"]
-resource_local_to_scene = true
-material = ExtResource("4_t50q4")
-size = Vector2(300, 300)
-subdivide_width = 500
-subdivide_depth = 500
-
 [sub_resource type="ViewportTexture" id="ViewportTexture_m1c3a"]
 viewport_path = NodePath("Simulation")
 
@@ -171,6 +156,26 @@ resource_local_to_scene = true
 lightmap_size_hint = Vector2i(29, 29)
 material = SubResource("ShaderMaterial_f7voy")
 size = Vector2(30, 30)
+subdivide_width = 500
+subdivide_depth = 500
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ew6a6"]
+cull_mode = 1
+diffuse_mode = 3
+specular_mode = 1
+grow = true
+grow_amount = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ikqnr"]
+next_pass = SubResource("StandardMaterial3D_ew6a6")
+diffuse_mode = 3
+specular_mode = 1
+albedo_color = Color(0, 0.270588, 0.54902, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_psqb2"]
+resource_local_to_scene = true
+material = ExtResource("4_t50q4")
+size = Vector2(300, 300)
 subdivide_width = 500
 subdivide_depth = 500
 
@@ -256,6 +261,7 @@ shader_parameter/fluffiness = 2.0
 shader_parameter/noiseTexture = SubResource("NoiseTexture2D_toahu")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_w32y2"]
+lightmap_size_hint = Vector2i(29, 29)
 material = SubResource("ShaderMaterial_4og4g")
 size = Vector2(100, 100)
 
@@ -271,6 +277,9 @@ material = SubResource("StandardMaterial3D_u8u0x")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_kbd75"]
 size = Vector3(1.91333, 0.737022, 3.24738)
+
+[sub_resource type="Environment" id="Environment_38vk1"]
+background_mode = 1
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_v8y3l")
@@ -310,21 +319,6 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="Collision" type="SubViewport" parent="."]
-size = Vector2i(514, 512)
-render_target_update_mode = 4
-
-[node name="WaterCam" type="Camera3D" parent="Collision"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -5, 0)
-keep_aspect = 0
-cull_mask = 524288
-environment = SubResource("Environment_38vk1")
-projection = 1
-current = true
-size = 60.0
-near = 0.001
-far = 5.0
-
 [node name="Ball" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
@@ -342,8 +336,19 @@ libraries = {
 }
 autoplay = "dip"
 
+[node name="Water" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.53674e-07, -0.4, 0)
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_ntba4")
+
+[node name="Water2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, -0.4, 0)
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_ntba4")
+
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.6945, 0)
+use_collision = true
 size = Vector3(12, 5, 12)
 material = SubResource("StandardMaterial3D_ikqnr")
 
@@ -354,11 +359,6 @@ size = Vector3(10, 8, 10)
 [node name="PoolFloor" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.76016, 0)
 mesh = SubResource("PlaneMesh_psqb2")
-
-[node name="Water" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
-cast_shadow = 0
-mesh = SubResource("PlaneMesh_ntba4")
 
 [node name="Object" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.690295, 0)
@@ -380,7 +380,7 @@ scale = Vector2(8.84375, 4.54688)
 texture = ExtResource("7_cegmh")
 
 [node name="Generation_Clouds" type="CSGMesh3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.9655, 51.2457, 17.6471)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8315, 51.2457, -1.14012)
 cast_shadow = 3
 mesh = SubResource("PlaneMesh_w32y2")
 
@@ -494,3 +494,42 @@ tween_parameters = null
 tween_on_load = true
 inactive_update_mode = 0
 camera_3D_resource = null
+
+[node name="Collision" type="SubViewport" parent="PhantomCamera3D"]
+render_target_update_mode = 4
+
+[node name="WaterCam" type="Camera3D" parent="PhantomCamera3D/Collision"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -5, 0)
+keep_aspect = 0
+cull_mask = 524288
+environment = SubResource("Environment_38vk1")
+doppler_tracking = 1
+projection = 1
+current = true
+size = 60.0
+near = 0.001
+far = 5.0
+
+[node name="rock1" parent="." instance=ExtResource("14_5gbe3")]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 22, 0.789808, -1)
+
+[node name="ruins" parent="." instance=ExtResource("15_rafgm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.1967, 0, -3.52105)
+
+[node name="rock3" parent="." instance=ExtResource("16_cod56")]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 7.87284, 0, -6.54793)
+
+[node name="sand" parent="." instance=ExtResource("17_ulnue")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.9419, -0.0847728, -8.52877)
+
+[node name="tree2" parent="." instance=ExtResource("18_lx1bp")]
+transform = Transform3D(0.70534, 0, -0.708869, 0, 1, 0, 0.708869, 0, 0.70534, 17.8283, -2.92065, -7.4059)
+
+[node name="palm3" parent="." instance=ExtResource("19_4f13p")]
+transform = Transform3D(-0.356037, 0, -0.934472, 0, 1, 0, 0.934472, 0, -0.356037, 17.942, 0.297237, -9.77565)
+
+[node name="palm2" parent="." instance=ExtResource("20_ryrbp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5706, 0.297237, -9.02906)
+
+[node name="palm1" parent="." instance=ExtResource("21_37djg")]
+transform = Transform3D(-0.848501, 0, 0.529194, 0, 1, 0, -0.529194, 0, -0.848501, 18.1764, 0.425099, -9.0445)
