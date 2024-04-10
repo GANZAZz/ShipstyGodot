@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bxtmertydechn"]
 
 [ext_resource type="PackedScene" uid="uid://coog43ya4sq86" path="res://Meshes/ship.glb" id="1_8i1pv"]
-[ext_resource type="Texture2D" uid="uid://dyxcqkcbbnds3" path="res://Meshes/ship_apollo-1x.png" id="2_k41f7"]
+[ext_resource type="Texture2D" uid="uid://3cxkyu46fret" path="res://Meshes/ship_apollo-1x.png" id="2_k41f7"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7280s"]
 cull_mode = 1

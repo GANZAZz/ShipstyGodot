@@ -27,6 +27,10 @@ window/stretch/mode="viewport"
 
 project/assembly_name="Water sim YT"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/phantom_camera/plugin.cfg")
+
 [filesystem]
 
 import/blender/enabled.android=true

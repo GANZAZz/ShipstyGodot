@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=3 uid="uid://cdbpaiqms1wpo"]
+[gd_scene load_steps=52 format=3 uid="uid://cdbpaiqms1wpo"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_v8y3l"]
 [ext_resource type="Shader" uid="uid://v3wvmylpqv6y" path="res://Shaders/buffer.tres" id="2_3fwpj"]
@@ -8,9 +8,11 @@
 [ext_resource type="Shader" path="res://Shaders/LimitColorOutput.gdshader" id="6_nnckg"]
 [ext_resource type="Texture2D" uid="uid://3m3ubpkk3ays" path="res://icon.svg" id="7_cegmh"]
 [ext_resource type="Shader" path="res://Shaders/Clouds.gdshader" id="8_ie7yu"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="9_jnqe0"]
 [ext_resource type="Script" path="res://Scripts/PhysOnWater.gd" id="9_txq3d"]
 [ext_resource type="PackedScene" uid="uid://bxtmertydechn" path="res://Meshes/shipsty.tscn" id="11_s6dx2"]
 [ext_resource type="Material" uid="uid://clyanmysnk36w" path="res://Shaders/MasksToSee-throughOtherObjects.tres" id="12_yr7lx"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3D.gd" id="13_36n77"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_idmas"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -383,15 +385,19 @@ cast_shadow = 3
 mesh = SubResource("PlaneMesh_w32y2")
 
 [node name="MainCam" type="Camera3D" parent="."]
-transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 7.76885, 11.0639, 10.2263)
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 14.0042, 11.9181, 6)
 cull_mask = 524287
 projection = 1
 current = true
-size = 32.0
-far = 50.0
+fov = 73.9365
+size = 28.0
+far = 100.0
+
+[node name="PhantomCameraHost" type="Node" parent="MainCam"]
+script = ExtResource("9_jnqe0")
 
 [node name="Ship" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.41103, 0)
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 8.00419, 0.503857, 0)
 axis_lock_angular_x = true
 axis_lock_angular_z = true
 script = ExtResource("9_txq3d")
@@ -469,3 +475,22 @@ light_size = 2.0
 
 [node name="ship2" parent="." instance=ExtResource("11_s6dx2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
+
+[node name="PhantomCamera3D" type="Node3D" parent="."]
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 14.0042, 11.9181, 6)
+script = ExtResource("13_36n77")
+priority_override = false
+priority = 0
+follow_mode = 5
+follow_target = NodePath("../Ship")
+follow_parameters/distance = 2.0
+follow_parameters/target_offset = Vector3(5, 10, 5)
+follow_parameters/damping = false
+follow_parameters/dead_zone_horizontal = 0.2
+follow_parameters/dead_zone_vertical = 0.2
+follow_parameters/viewfinder_in_play = false
+look_at_mode = 0
+tween_parameters = null
+tween_on_load = true
+inactive_update_mode = 0
+camera_3D_resource = null
